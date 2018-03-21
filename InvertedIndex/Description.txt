@@ -1,0 +1,7 @@
+Program do wyszukiwania pe³notekstowego.
+
+Wersja 0.1
+Argumenty wejœciowe:
+- œcie¿ka do przeszukiwanego pliku
+
+Program utworzy indeks pliku i wczyta go do pamiêci. Nastêpnie w pêtli bêdzie oczekiwa³ na kolejne s³owa. Po wciœniêciu <ENTER> wyszuka podane s³owo w indeksie i zwróci numery linii.
