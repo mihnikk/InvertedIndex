@@ -1,12 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <set>
 #include "ItemPosition.h"
 
 struct IndexItem {
 	char letter;
 	std::vector<IndexItem*> nextItems;
-	std::vector<ItemPosition*> positions;
+	std::set<ItemPosition*> positions;
 
 	IndexItem(char a) : letter(a) {}
 	~IndexItem() {

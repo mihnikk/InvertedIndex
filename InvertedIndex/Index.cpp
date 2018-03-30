@@ -4,18 +4,21 @@
 
 Index::Index()
 {
+	allowed = { '!','@','#','$','%','^','-','+','=' };
 }
 
 
 Index::~Index()
 {
+	for (auto&& i : items) {
+		delete i;
+	}
 }
 
 void Index::addFile(const string& path) {
 	string line;
 	int lineNumber = 1;
 	ifstream file(path);
-	char letter;
 	if (file.is_open()) {
 		// czytanie znak po znaku
 		char ch;
@@ -37,7 +40,7 @@ void Index::addFile(const string& path) {
 					- jeœli znaleziony, to ustawiamy "item" na odpowiedni element z "items"
 					- jeœli nie znaleziony, to dodajemy nowy IndexItem, wstawiamy go do "items" i ustawiamy na niego "item"
 			*/
-			if (isalnum(ch, locale("polish")) > 0) {	// znak alfanumeryczny
+			if (isalnum(ch, locale("polish")) || allowed.count(ch) > 0) {	// znak alfanumeryczny
 				if (item != 0) {	// jeœli ustawiony "item"
 					IndexItem* next = item->find(ch);	// szukamy w jego "nextItems" takiego znaku
 					if (next != 0) {	// jeœli jest to przestawiamy "item" na tamten
@@ -65,7 +68,7 @@ void Index::addFile(const string& path) {
 			else {	// to nie jest znak alfanumeryczny
 				if (item != 0) {	// jeœli jest ustawiony "item" to:
 					ItemPosition* pos = new ItemPosition(lineNumber, path);
-					item->positions.push_back(pos);
+					item->positions.insert(pos);
 					item = 0;
 				}
 				if (ch == '\n') {	// koniec linii
@@ -75,16 +78,31 @@ void Index::addFile(const string& path) {
 		}
 		if (item != 0) {	// jeœli jest ustawiony "item" to:
 			ItemPosition* pos = new ItemPosition(lineNumber, path);
-			item->positions.push_back(pos);
+			item->positions.insert(pos);
 		}
 		file.close();
 		fileNames.push_back(path);
 	}
 }
 
-vector<ItemPosition> Index::find(const string& word) {
-	vector<ItemPosition> result;
-	return result;
+set<ItemPosition*> Index::find(const string& word) {
+	IndexItem* item = 0;
+	char c;
+	for (auto it = word.begin(); it != word.end(); ++it) {
+		c = (*it);
+		if (item == 0) {
+			item = findInItems(c);
+		}
+		else {
+			item = item->find(c);
+		}
+	}
+	if (item != 0) {
+		return item->positions;
+	}
+	else {
+		return set<ItemPosition*>();
+	}
 }
 
 IndexItem* Index::findInItems(char ch) {
