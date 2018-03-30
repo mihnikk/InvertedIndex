@@ -1,7 +1,11 @@
-Program do wyszukiwania pe³notekstowego.
+Simple full-text index solution, created for educational purpose.
+Goals:
+- learn algorithms and data structures in a tree example
+- learn C++ serialization of complex objects
+- practical example of low level network programming
+- practical application of OrientDB
 
-Wersja 0.1
-Argumenty wejœciowe:
-- œcie¿ka do przeszukiwanego pliku
-
-Program utworzy indeks pliku i wczyta go do pamiêci. Nastêpnie w pêtli bêdzie oczekiwa³ na kolejne s³owa. Po wciœniêciu <ENTER> wyszuka podane s³owo w indeksie i zwróci numery linii.
+Roadmap:
+- 0.1: index in memory, searching in one file
+- 0.2: storing index in separate file, reading from it (add file to index)
+- 0.3: storing index in OrientDB graph database
